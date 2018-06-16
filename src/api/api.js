@@ -42,7 +42,7 @@ router.get('/api/v1/snacks/:id', (req,res) => {
     Notes.findOne(req.params.id)
       .then(data => sendJSON(res, data))
       .catch(err => serverError(res, err));
-    res.end();
+      res.end();
   } else if ( !req.params.id ){
     res.statusCode = 400;
     res.statusMessage = 'Bad request';

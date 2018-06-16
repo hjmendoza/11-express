@@ -16,6 +16,7 @@ module.exports = {
     if(! isRunning) {
       app.listen(port, (err) => {
         if(err) { throw err; }
+        // Tick the running flag
         isRunning = true;
         console.log('Server is up on port', port);
       });
