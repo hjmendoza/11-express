@@ -3,7 +3,6 @@
 import express from 'express';
 let app = express();
 
-// Express body and URL parsers
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
