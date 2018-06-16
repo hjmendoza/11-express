@@ -1,13 +1,12 @@
 'use strict';
 
 import express from 'express';
-import router from './api/api.js';
-
 let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+import router from './api/api.js';
 app.use( router );
 
 let isRunning = false;

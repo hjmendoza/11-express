@@ -22,10 +22,19 @@ let serverError = (res,err) => {
   res.end();
 };
 
-router.get('/api/v1/snacks', (req,res) => {
+router.get('/', (req, res) => {
+  res.statusCode = 200;
+  res.statusMessage = 'OK';
+  let name = req.query.name || '';
+  res.write(`Hello ${name}`);
+  res.end();
+});
+
+router.get('/api/v1/snacks', (res) => {
   Notes.fetchAll()
     .then( data => sendJSON(res,data) )
     .catch( err => serverError(res,err) );
+  res.end();
 });
 
 router.get('/api/v1/snacks/:id', (req,res) => {
@@ -33,9 +42,16 @@ router.get('/api/v1/snacks/:id', (req,res) => {
     Notes.findOne(req.params.id)
       .then(data => sendJSON(res, data))
       .catch(err => serverError(res, err));
+    res.end();
+  } else if ( !req.params.id ){
+    res.statusCode = 400;
+    res.statusMessage = 'Bad request';
+    res.end();
   }
   else {
-    serverError(res, 'Record Not Found');
+    res.statusCode = 404;
+    res.statusMessage = 'Not found';
+    res.end();
   }
 
 });
