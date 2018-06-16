@@ -25,6 +25,7 @@
     "babel-register": "^6.26.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "fs": "0.0.1-security",
     "jest": "^23.1.0",
     "uuid": "^3.2.1"
   }

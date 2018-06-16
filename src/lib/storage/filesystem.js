@@ -3,10 +3,8 @@ import fs from 'fs';
 
 const storage = {};
 
-// The location where we will store our individual model data files
 const dataDirectory = `${__dirname}/../../../data`;
 
-// Promisify the fs.readFile() method.
 let readFilePromise = function(filename) {
   return new Promise(function(resolve, reject) {
     fs.readFile(filename, function(err, data){
@@ -83,6 +81,29 @@ storage.save = (data) => {
     });
   });
 };
+
+storage.updateOne = (id, data) => {
+  return new Promise( (resolve, reject) => {
+    if ( ! data.id ) { reject('No Record ID Specified'); }
+
+    let file = `${dataDirectory}/${data.id}.json`;
+    let text = JSON.stringify(data);
+    fs.writeFile(file, text, (err) => {
+      if(err) { reject (err); }
+      resolve(data);
+    });
+  });
+}
+
+storage.deleteOne = id => {
+  return new Promise( (resolve,reject) => {
+    let file = `${dataDirectory}/${id}.json`;
+    fs.unlink(file, (err) => {
+      if(err) { reject(err); }
+      resolve(`${file} was deleted`);
+    });
+  });
+}
 
 
 export default storage;

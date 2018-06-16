@@ -57,7 +57,7 @@ class Note{
   }
 
   static deleteOne(id) {
-    return storage.delete(id);
+    return storage.deleteOne(id);
   }
 
 }

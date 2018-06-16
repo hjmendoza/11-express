@@ -51,18 +51,18 @@ router.post('/api/v1/snacks', (req,res) => {
 router.put('/api/v1/snacks/:id', (req, res) => {
   Notes.updateOne(req.params.id, req.body)
     .then(data => sendJSON(res, data))
-    .catch(err => serverErr(res, err));
+    .catch(err => serverError(res, err));
 });
 
 router.delete('/api/v1/snacks/:id', (req, res) => {
   if (req.params.id) {
-    Note.deleteOne(req.params.id)
+    Notes.deleteOne(req.params.id)
       .then(() => {
         res.statusCode = 204;
         res.statusMessage = 'ID DELETED'
         res.end();
       })
-      .catch(err => serverErr(res, err));
+      .catch(err => serverError(res, err));
   } else {
     res.statusCode = 404;
     res.write(`ID Not found`);
