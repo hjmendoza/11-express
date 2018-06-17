@@ -3,7 +3,7 @@
 import express from 'express';
 const router = express.Router();
 
-import Notes from '../models/notes.js';
+import Snack from '../models/snacks';
 
 let sendJSON = (res,data) => {
   res.statusCode = 200;
@@ -15,8 +15,8 @@ let sendJSON = (res,data) => {
 
 let serverError = (res,err) => {
   let error = { error:err };
-  res.statusCode = 500;
-  res.statusMessage = 'Server Error';
+  res.statusCode = 404;
+  res.statusMessage = 'Not Found';
   res.setHeader('Content-Type', 'application/json');
   res.write( JSON.stringify(error) );
   res.end();
@@ -25,54 +25,55 @@ let serverError = (res,err) => {
 router.get('/', (req, res) => {
   res.statusCode = 200;
   res.statusMessage = 'OK';
-  let name = req.query.name || '';
-  res.write(`Hello ${name}`);
   res.end();
 });
 
-router.get('/api/v1/snacks', (res) => {
-  Notes.fetchAll()
+router.get('/api/v1/snacks/', (res) => {
+    Snack.fetchAll()
     .then( data => sendJSON(res,data) )
     .catch( err => serverError(res,err) );
-  res.end();
 });
 
 router.get('/api/v1/snacks/:id', (req,res) => {
   if ( req.params.id ) {
-    Notes.findOne(req.params.id)
+    Snack.findOne(req.params.id)
       .then(data => sendJSON(res, data))
       .catch(err => serverError(res, err));
-      res.end();
   } else if ( !req.params.id ){
     res.statusCode = 400;
     res.statusMessage = 'Bad request';
-    res.end();
   }
   else {
     res.statusCode = 404;
     res.statusMessage = 'Not found';
+  }
+});
+
+router.post('/api/v1/snacks', (req,res) => {
+  if(req.body === undefined){
+    res.statusCode = 400;
+    res.statusMessage = 'Bad Request';
+    res.write('Bad Request');
     res.end();
+  } else {
+    let record = new Snack(req.body);
+    record.save()
+      .then(data => sendJSON(res,data))
+      .catch(console.error);
   }
 
 });
 
-router.post('/api/v1/snacks', (req,res) => {
-  let record = new Notes(req.body);
-  record.save()
-    .then(data => sendJSON(res,data))
-    .catch(console.error);
-
-});
 
 router.put('/api/v1/snacks/:id', (req, res) => {
-  Notes.updateOne(req.params.id, req.body)
+  Snacks.updateOne(req.params.id, req.body)
     .then(data => sendJSON(res, data))
     .catch(err => serverError(res, err));
 });
 
 router.delete('/api/v1/snacks/:id', (req, res) => {
   if (req.params.id) {
-    Notes.deleteOne(req.params.id)
+    Snack.deleteOne(req.params.id)
       .then(() => {
         res.statusCode = 204;
         res.statusMessage = 'ID DELETED'

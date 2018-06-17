@@ -24,11 +24,9 @@
     "babel-eslint": "^8.2.3",
     "babel-register": "^6.26.0",
     "dotenv": "^6.0.0",
+    "eslint": "^4.19.1",
     "express": "^4.16.3",
-    "file-system": "^2.2.2",
-    "fs": "0.0.1-security",
     "jest": "^23.1.0",
-    "nodemon": "^1.17.5",
     "superagent": "^3.8.3",
     "uuid": "^3.2.1"
   }

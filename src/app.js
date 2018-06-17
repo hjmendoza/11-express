@@ -1,35 +1,39 @@
 'use strict';
 
+
 import express from 'express';
+
 let app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended: true}));
 
 import router from './api/api.js';
-app.use( router );
+app.use(router);
 
-let isRunning = false;
+let alreadyRunning = false;
+
+let server;
 
 module.exports = {
   start: (port) => {
-    if(! isRunning) {
-      app.listen(port, (err) => {
-        if(err) { throw err; }
-        // Tick the running flag
-        isRunning = true;
-        console.log('Server is up on port', port);
+    if(!alreadyRunning) {
+      server = app.listen(port, (err) =>{
+        if(err) {throw err;}
+
+        alreadyRunning = true;
+        console.log(`Server is up on port ${port}`);
       });
     }
     else {
-      console.log('Server is already running');
+      console.log('Server already running on port', port);
     }
   },
 
   stop: () => {
-    app.close( () => {
-      isRunning = false;
-      console.log('Server has been stopped');
+    server.close( () => {
+      alreadyRunning = false;
+      console.log('Server is closed');
     });
   },
 };

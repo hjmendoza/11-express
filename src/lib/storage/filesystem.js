@@ -93,7 +93,7 @@ storage.updateOne = (id, data) => {
       resolve(data);
     });
   });
-}
+};
 
 storage.deleteOne = id => {
   return new Promise( (resolve,reject) => {
@@ -103,7 +103,7 @@ storage.deleteOne = id => {
       resolve(`${file} was deleted`);
     });
   });
-}
+};
 
 
 export default storage;
