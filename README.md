@@ -30,7 +30,7 @@ HEROKU: https://express-haley.herokuapp.com/
 * Tests written to ensure api returns correct status codes and HTTP requests respond as expected
 
 ## To Start Application
-Clone down code. Define port in .env. Run application using either Postman or HTTP. View application page using Heroku link.
+Clone down code. Define port in .env. Run application using either Postman or HTTP. View application page `http://localhost:<PORT>`.
   * `localhost:<PORT>` will start at homepage
   * `localhost:<PORT>/api/v1/snacks` will start at endpoint of API
   * Use postman or httpie to register other HTTP requests
