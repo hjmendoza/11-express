@@ -3,7 +3,10 @@
 
 [![Build Status](https://travis-ci.com/hjmendoza/11-express.svg?branch=master)](https://travis-ci.com/hjmendoza/11-express)
 
+TRAVIS: https://travis-ci.com/hjmendoza/11-express
 HEROKU: https://express-haley.herokuapp.com/
+PR: https://github.com/hjmendoza/11-express/pull/2
+
  
  ## Configuration 
  * **index.js** - the entry point for application
@@ -18,7 +21,7 @@ HEROKU: https://express-haley.herokuapp.com/
 #### Features 
 * Code implemented using ES6 Modules (import/export) using Babel
 * Created an HTTP server using `express`
-* Created a object constructor that creates a _simple resource_ with at least 3 properties
+* Created an object constructor that creates a _simple resource_ with at least 3 properties
 * Used the JSON parser included with the `body-parser` module as a middleware component to parse the request body on `POST` and `PUT` routes
 * Persists API data using the storage module and file system persistence
 
@@ -30,7 +33,7 @@ HEROKU: https://express-haley.herokuapp.com/
 * Tests written to ensure api returns correct status codes and HTTP requests respond as expected
 
 ## To Start Application
-Clone down code. Define port in .env. Run application using either Postman or HTTP. View application page using Heroku link.
+Clone down code. Define port in .env. Run application using either Postman or HTTP. View application page `http://localhost:<PORT>`.
   * `localhost:<PORT>` will start at homepage
   * `localhost:<PORT>/api/v1/snacks` will start at endpoint of API
   * Use postman or httpie to register other HTTP requests

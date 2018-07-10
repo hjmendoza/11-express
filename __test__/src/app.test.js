@@ -6,62 +6,70 @@ import app from '../../src/app.js';
 describe('app module', () => {
 
   beforeAll(() => {
-    app.start(8080);
+    app.start(3001);
   });
 
   afterAll(() => {
     app.stop();
   });
 
-  it('should return 200 for homepage', () => {
-    return superagent.get('http://localhost:8080')
-      .then(res => {
-        expect(res.statusCode).toBe(200);
-      });
-  });
-
-
-  it('GET - 404 should respond with /"not found/" for valid requests made with an id that was not found', () => {
+  it('404 - route has not been registered', () => {
     return superagent
-      .get('http://localhost:8080/api/v1/snacks/123')
+      .get('http://localhost:3001/api/v1/weirdo')
       .catch(res => {
         expect(res.status).toBe(404);
-        // expect(err.response.text).toEqual('Not Found');
       });
   });
 
-  xit('GET 200 - should contain a response body for a request made with a valid id handles a good post request', () => {
-    let obj = {id:'12345', name:'Brownies', calories:'300'};
-    return superagent.post('http://localhost:8080/api/v1/snacks')
-      .send(obj)
-      .then(() => {
-        return superagent.get('http://localhost:8080/api/v1/snacks/')
-          .then(response => {
-            expect(response.statusCode).toBe(200);
-            expect(response.text).toEqual(expect.stringContaining('brownies'));
-          });
+  it('404 - invalid id', () => {
+    return superagent
+      .get('http://localhost:3001/api/v1/snack/1234567')
+      .catch(res => {
+        expect(res.status).toBe(404);
       });
   });
 
-  it('POST - 400 should respond with /"bad request/" if no request body was provided or the body was invalid', () => {
-    return superagent.post('http://localhost:8080/api/v1/snacks')
+  it('400 - id not provided', (done) => {
+    superagent
+      .get('http://localhost:3001/api/v1/snack')
       .catch(res => {
         expect(res.status).toBe(400);
         expect(res.response.text).toEqual('Bad Request');
+        done();
       });
   });
 
-  it('POST: test 200, it should respond with the body content for a post request with a valid body', () => {
-    return superagent.post('http://localhost:8080/api/v1/snacks')
+  it('200 - valid id provided', () => {
+    let id;
+    return superagent
+      .post('http://localhost:3001/api/v1/snack/')
       .send({
-        id: '1234',
-        name: 'Cookies',
-        calories: '3000',
+        name: 'Brownies',
+        calories: 300,
       })
-      .then(response => {
-        expect(response.statusCode).toBe(200);
-        expect(response.text).toEqual(expect.stringContaining('calories'));
-      });
+      .then(data => {
+        id = data.params.id;
+        return superagent
+          .get(`http://localhost:3001/api/v1/snack/${id}`)
+          .then(res => {
+            expect(res.statusCode).toBe(200);
+          })
+          .catch(res => console.error(res));
+      })
+      .catch(res => console.error('error', res));
   });
 
+  it('200 - post request for valid body', () => {
+    return superagent
+      .post('http://localhost:3001/api/v1/snack/')
+      .send({
+        name: 'Brownies',
+        calories: 300,
+      })
+      .then(res => {
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toBeDefined();
+      })
+      .catch(res => console.error(res));
+  });
 });

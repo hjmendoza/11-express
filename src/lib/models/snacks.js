@@ -1,6 +1,6 @@
 'use strict';
 
-import storage from '../lib/storage/data-store.js';
+import storage from '../storage/data-store.js';
 import uuid from 'uuid/v1';
 
 class Snack{
@@ -23,12 +23,13 @@ class Snack{
     return storage.get(id);
   }
 
-  static updateOne(id, body) {
-    return storage.update(id, body);
+  static updateOne(criteria) {
+    console.log(criteria);
+    return storage.update(this);
   }
 
   static deleteOne(id) {
-    return storage.deleteOne(id);
+    return storage.delete(id);
   }
 
 }
